@@ -1,7 +1,7 @@
 // Copyright S.R.Hamilton.Art
 
 
-#include "AuraCharacterBase.h"
+#include "Character/AuraCharacterBase.h"
 
 // Sets default values
 AAuraCharacterBase::AAuraCharacterBase()
