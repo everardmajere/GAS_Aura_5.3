@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "gameframework/Pawn.h"
 #include "AuraPlayerController.generated.h"
 
 
