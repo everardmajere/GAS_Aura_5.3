@@ -13,13 +13,10 @@ void UAuraAbilitySystemComponentBase::EffectApplied(UAbilitySystemComponent* Abi
 {
 	FGameplayTagContainer TagContainer;
 	EffectSpec.GetAllAssetTags(TagContainer);
-	for (const FGameplayTag& Tag : TagContainer)
-	{
-		//TODO: Broadcast the tage to the widget controller
 
-		const FString TagString = FString::Printf(TEXT("GE Tag: %s"), *Tag.ToString());
-		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red, TagString);
-	}
+	EffectAssetTags.Broadcast(TagContainer);
+	
+
 	
 }
 
