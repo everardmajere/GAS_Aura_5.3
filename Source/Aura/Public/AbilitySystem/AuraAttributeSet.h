@@ -12,8 +12,50 @@
 	GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
-  
 
+USTRUCT(blueprintType)
+struct FEffectProperties
+{
+	GENERATED_BODY()
+	FEffectProperties(){}
+	// FEffectProperties(UAbilitySystemComponent* SourceASC, AActor* SourceAvatarActor, AController* SourceController, ACharacter* SourceCharacter, FGameplayEffectContextHandle* SourceEffectContextHandle,
+	// UAbilitySystemComponent* TargetASC, AActor* TargetAvatarActor, AController* TargetController, ACharacter* TargetCharacter, FGameplayEffectContextHandle* TargetEffectContextHandle	)
+	// : SourceAbilitySystemComponent(SourceASC), SourceAvatarActor(SourceAvatarActor),SourceController(SourceController), SourceCharacter(SourceCharacter), SourceEffectContextHandle(*SourceEffectContextHandle),
+	// TargetAbilitySystemComponent(TargetASC), TargetAvatarActor(TargetAvatarActor),TargetCharacter(TargetCharacter),TargetEffectContextHandle(*TargetEffectContextHandle){}
+
+	UPROPERTY(Editanywhere, BlueprintReadWrite)
+	FGameplayEffectContextHandle EffectContextHandle;
+
+	//Source
+	UPROPERTY(Editanywhere, BlueprintReadWrite)
+	TObjectPtr<UAbilitySystemComponent> SourceASC = nullptr;
+
+	UPROPERTY(Editanywhere, BlueprintReadWrite)
+	TObjectPtr<AActor> SourceAvatarActor = nullptr;
+
+	UPROPERTY(Editanywhere, BlueprintReadWrite)
+	TObjectPtr<AController> SourceController = nullptr;
+
+	UPROPERTY(Editanywhere, BlueprintReadWrite)
+	TObjectPtr<ACharacter> SourceCharacter = nullptr;
+	
+	//Target
+	UPROPERTY(Editanywhere, BlueprintReadWrite)
+	TObjectPtr<UAbilitySystemComponent> TargetASC = nullptr;
+
+	UPROPERTY(Editanywhere, BlueprintReadWrite)
+	TObjectPtr<AActor> TargetAvatarActor = nullptr;
+
+	UPROPERTY(Editanywhere, BlueprintReadWrite)
+	TObjectPtr<AController> TargetController = nullptr;
+
+	UPROPERTY(Editanywhere, BlueprintReadWrite)
+	TObjectPtr<ACharacter> TargetCharacter = nullptr;
+
+
+
+
+};
 
 /**
  * 
@@ -29,6 +71,8 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+
+	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
 	//Health
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attributes")
@@ -60,5 +104,7 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,MaxMana);
 	//End Mana
 
-	
+private:
+
+	void SetEffectProperties(const FGameplayEffectModCallbackData& Data,FEffectProperties& Props) const;
 };
