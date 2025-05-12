@@ -44,11 +44,12 @@ void UAuraOverlayWidgetController::BindCallbacksToDependencies()
 			
 			for (const FGameplayTag& Tag : AssetTags)
 			{
-				const FString TagString = FString::Printf(TEXT("GE Tag: %s"), *Tag.ToString());
-				GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red, TagString);
-
-				FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
-				
+				FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
+				if (Tag.MatchesTag(MessageTag))
+				{
+					FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+				   MessageWidgetRowDelegate.Broadcast(*Row);
+				}
 			}
 	
 		}
